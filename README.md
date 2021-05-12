@@ -34,12 +34,12 @@ Both classes require two arguments:
 1. Model that we are optimizing
 2. Search Space (defined as a dictionary where the names are the hyperparameter arguments to the model and the values are discrete values or a distribution of values to sample)
 
-# define model
+*define model*
 model = LogisticRegression()
-# define search space
+*define search space*
 space = dict()
 ...
-# define search
+*define search*
 search = GridSearchCV(model, space)
 
 
@@ -68,17 +68,17 @@ min_samples_leaves- Minimum no.of samples required at each node
 
 
 from sklearn.model_selection import RandomizedSearchCV
-# Number of trees in random forest
+*Number of trees in random forest*
 n_estimators = [int(x) for x in np.linspace(start = 200, stop = 2000, num = 10)]
-# Number of features to consider at every split
+*Number of features to consider at every split*
 max_features = ['auto', 'sqrt','log2']
-# Maximum number of levels in tree
+*Maximum number of levels in tree*
 max_depth = [int(x) for x in np.linspace(10, 1000,10)]
-# Minimum number of samples required to split a node
+*Minimum number of samples required to split a node*
 min_samples_split = [2, 5, 10,14]
-# Minimum number of samples required at each leaf node
+*Minimum number of samples required at each leaf node*
 min_samples_leaf = [1, 2, 4,6,8]
-# Create the random grid
+*Create the random grid*
 random_grid = {'n_estimators': n_estimators,
                'max_features': max_features,
                'max_depth': max_depth,
@@ -90,12 +90,12 @@ print(random_grid)
 rf=RandomForestClassifier()
 rf_randomcv=RandomizedSearchCV(estimator=rf,param_distributions=random_grid,n_iter=100,cv=3,verbose=2,
                                random_state=100,n_jobs=-1)
-### fit the randomized model
+*fit the randomized model*
 rf_randomcv.fit(X_train,y_train)
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-## Automated Hyperparameter Tuning
+### Automated Hyperparameter Tuning
 Automated Hyperparameter Tuning can be done by using techniques such as
 - Bayesian Optimization
 - Gradient Descent
@@ -113,5 +113,21 @@ Automated Hyperparameter Tuning can be done by using techniques such as
 #pip install hyperopt
 from hyperopt import hp,fmin,tpe,STATUS_OK,Trials
 
+Then apply the function for 'Trials'. From the O/P to get back all the values, do a reverse mapping.
 
-2. 
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Genetic Algorithms:
+- Try to apply Natural Selection
+- Let's immagine we create a population of N Machine Learning models with some predifined Hyperparameters. We can then calculate the accuracy of each model and decide to keep just half of the models (the ones that performs best).
+- We can now generate some offsprings having similar Hyperparameters to the ones of the best models so that go get again a population of N models.
+- At this point we can again caltulate the accuracy of each model and repeate the cycle for a defined number of generations. In this way, just the best models will survive at the end of the process.
+
+Use all RF parameters and use a TPOT clssifier. To use TPOT classifier, We need Tensor Flow to be installed. 
+
+
+Optuna:
+- pip install optuna
+- 
+
+
