@@ -58,10 +58,60 @@ Fit and Execute the Search and Summarize the result.
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+Eg: For RandomForest
+
+n_estimators - No.of trees in Random Forest
+max_features - No.of features to consider at every split
+max_depth    - Maximum No.of levels in tree
+min_samples_split - Minimum no.of samples required to split a node
+min_samples_leaves- Minimum no.of samples required at each node
 
 
+from sklearn.model_selection import RandomizedSearchCV
+# Number of trees in random forest
+n_estimators = [int(x) for x in np.linspace(start = 200, stop = 2000, num = 10)]
+# Number of features to consider at every split
+max_features = ['auto', 'sqrt','log2']
+# Maximum number of levels in tree
+max_depth = [int(x) for x in np.linspace(10, 1000,10)]
+# Minimum number of samples required to split a node
+min_samples_split = [2, 5, 10,14]
+# Minimum number of samples required at each leaf node
+min_samples_leaf = [1, 2, 4,6,8]
+# Create the random grid
+random_grid = {'n_estimators': n_estimators,
+               'max_features': max_features,
+               'max_depth': max_depth,
+               'min_samples_split': min_samples_split,
+               'min_samples_leaf': min_samples_leaf,
+              'criterion':['entropy','gini']}
+print(random_grid)
+
+rf=RandomForestClassifier()
+rf_randomcv=RandomizedSearchCV(estimator=rf,param_distributions=random_grid,n_iter=100,cv=3,verbose=2,
+                               random_state=100,n_jobs=-1)
+### fit the randomized model
+rf_randomcv.fit(X_train,y_train)
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## Automated Hyperparameter Tuning
+Automated Hyperparameter Tuning can be done by using techniques such as
+- Bayesian Optimization
+- Gradient Descent
+- Evolutionary Algorithms
+
+1. Bayesian Optimization:
+- Bayesian optimization uses probability to find the minimum of a function. 
+- The final aim is to find the input value to a function which can gives us the lowest possible output value.
+- It usually performs better than random,grid and manual search providing better performance in the testing phase and reduced optimization time. 
+- In Hyperopt, Bayesian Optimization can be implemented giving 3 three main parameters to the function fmin.  
+    -   Domain Space = defines the range of input values to test (in Bayesian Optimization this space creates a probability distribution for each of the used Hyperparameters).
+    -   Objective Function = defines the loss function to minimize.
+    -   Optimization Algorithm = defines the search algorithm to use to select the best input values to use in each new iteration.  
     
+#pip install hyperopt
+from hyperopt import hp,fmin,tpe,STATUS_OK,Trials
 
 
-
-
+2. 
